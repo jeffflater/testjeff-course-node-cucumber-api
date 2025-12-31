@@ -1,0 +1,91 @@
+name: Cucumber API Tests
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  dev-test:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    environment: DEV
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t cucumber-test .
+
+      - name: Run API tests
+        run: |
+          docker run --rm \
+            -e ANKRETH_API_KEY="${{ secrets.ANKRETH_API_KEY }}" \
+            -e FINNHUB_API_KEY="${{ secrets.FINNHUB_API_KEY }}" \
+            -v ${{ github.workspace }}/reports:/app/reports \
+            cucumber-test test:junit
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cucumber-results-dev
+          path: reports/
+
+  staging-test:
+    if: github.event_name == 'pull_request' && github.base_ref == 'main' && startsWith(github.head_ref, 'staging')
+    runs-on: ubuntu-latest
+    environment: STAGING
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t cucumber-test .
+
+      - name: Run API tests
+        run: |
+          docker run --rm \
+            -e ANKRETH_API_KEY="${{ secrets.ANKRETH_API_KEY }}" \
+            -e FINNHUB_API_KEY="${{ secrets.FINNHUB_API_KEY }}" \
+            -v ${{ github.workspace }}/reports:/app/reports \
+            cucumber-test test:junit
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cucumber-results-staging
+          path: reports/
+
+  prod-test:
+    if: github.event_name == 'pull_request' && github.base_ref == 'main' && github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    environment: PROD
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t cucumber-test .
+
+      - name: Run API tests
+        run: |
+          docker run --rm \
+            -e ANKRETH_API_KEY="${{ secrets.ANKRETH_API_KEY }}" \
+            -e FINNHUB_API_KEY="${{ secrets.FINNHUB_API_KEY }}" \
+            -v ${{ github.workspace }}/reports:/app/reports \
+            cucumber-test test:junit
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cucumber-results-prod
+          path: reports/

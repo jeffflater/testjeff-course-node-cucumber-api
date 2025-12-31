@@ -1,0 +1,31 @@
+{
+  "name": "testjeff-course-node-cucumber-api",
+  "version": "1.0.0",
+  "description": "API Testing Course using Node.js and Cucumber - REST, GraphQL, SOAP, RPC, and WebSocket",
+  "main": "index.js",
+  "scripts": {
+    "test": "cucumber-js",
+    "test:junit": "cucumber-js --format json:reports/cucumber-report.json --format junit:reports/junit-report.xml"
+  },
+  "keywords": [
+    "cucumber",
+    "api-testing",
+    "rest",
+    "graphql",
+    "soap",
+    "websocket",
+    "rpc"
+  ],
+  "author": "TestJeff",
+  "license": "ISC",
+  "dependencies": {
+    "@cucumber/cucumber": "^10.3.1",
+    "axios": "^1.6.7",
+    "chai": "^4.3.10",
+    "dotenv": "^16.4.1",
+    "soap": "^1.0.0",
+    "ws": "^8.16.0",
+    "xml2js": "^0.6.2"
+  },
+  "devDependencies": {}
+}
