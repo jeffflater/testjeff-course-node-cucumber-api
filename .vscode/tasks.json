@@ -1,0 +1,79 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Docker: Build Cucumber Image",
+        "type": "shell",
+        "command": "docker build -t cucumber-test .",
+        "problemMatcher": [],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "detail": "Builds the Docker image for Cucumber tests"
+      },
+      {
+        "label": "Docker: Run Welcome from TestJeff",
+        "type": "shell",
+        "command": "docker run --rm --env-file .env -v ${workspaceFolder}/reports:/app/reports --entrypoint npx cucumber-test cucumber-js test/features/welcome.feature --config cucumber.single.js --format json:reports/cucumber-report.json --format junit:reports/junit-report.xml",
+        "dependsOn": ["Docker: Build Cucumber Image"],
+        "problemMatcher": [],
+        "group": "test",
+        "detail": "Runs only the welcome.feature test to verify setup from TestJeff"
+      },
+      {
+        "label": "Docker: Run All Cucumber Tests",
+        "type": "shell",
+        "command": "docker run --rm --env-file .env -v ${workspaceFolder}/reports:/app/reports --entrypoint npx cucumber-test cucumber-js test/features --format json:reports/cucumber-report.json --format junit:reports/junit-report.xml",
+        "dependsOn": ["Docker: Build Cucumber Image"],
+        "problemMatcher": [],
+        "group": "test",
+        "detail": "Runs all Cucumber tests and saves JUnit results to the host machine"
+      },
+      {
+        "label": "Docker: Run Finnhub REST API Test",
+        "type": "shell",
+        "command": "docker run --rm --env-file .env -v ${workspaceFolder}/reports:/app/reports --entrypoint npx cucumber-test cucumber-js test/features/finnhub_rest_api_test.feature --config cucumber.single.js --format json:reports/cucumber-report.json --format junit:reports/junit-report.xml",
+        "dependsOn": ["Docker: Build Cucumber Image"],
+        "problemMatcher": [],
+        "group": "test",
+        "detail": "Runs only the Finnhub REST API feature test and saves JUnit results to the host machine"
+      },
+      {
+        "label": "Docker: Run TempConvert SOAP API Test",
+        "type": "shell",
+        "command": "docker run --rm --env-file .env -v ${workspaceFolder}/reports:/app/reports --entrypoint npx cucumber-test cucumber-js test/features/tempconvert_soap_api_test.feature --config cucumber.single.js --format json:reports/cucumber-report.json --format junit:reports/junit-report.xml",
+        "dependsOn": ["Docker: Build Cucumber Image"],
+        "problemMatcher": [],
+        "group": "test",
+        "detail": "Runs only the TempConvert SOAP API feature test and saves JUnit results to the host machine"
+      },
+      {
+        "label": "Docker: Run Rick and Morty GraphQL API Test",
+        "type": "shell",
+        "command": "docker run --rm --env-file .env -v ${workspaceFolder}/reports:/app/reports --entrypoint npx cucumber-test cucumber-js test/features/rickandmorty_graphql_api_test.feature --config cucumber.single.js --format json:reports/cucumber-report.json --format junit:reports/junit-report.xml",
+        "dependsOn": ["Docker: Build Cucumber Image"],
+        "problemMatcher": [],
+        "group": "test",
+        "detail": "Runs only the Rick and Morty GraphQL API feature test and saves JUnit results to the host machine"
+      },
+      {
+        "label": "Docker: Run Bitstamp WebSocket API Test",
+        "type": "shell",
+        "command": "docker run --rm --env-file .env -v ${workspaceFolder}/reports:/app/reports --entrypoint npx cucumber-test cucumber-js test/features/bitstamp_websocket_api_test.feature --config cucumber.single.js --format json:reports/cucumber-report.json --format junit:reports/junit-report.xml",
+        "dependsOn": ["Docker: Build Cucumber Image"],
+        "problemMatcher": [],
+        "group": "test",
+        "detail": "Runs only the Bitstamp WebSocket API feature test and saves JUnit results to the host machine"
+      },
+      {
+        "label": "Docker: Run AnkrETH RPC API Test",
+        "type": "shell",
+        "command": "docker run --rm --env-file .env -v ${workspaceFolder}/reports:/app/reports --entrypoint npx cucumber-test cucumber-js test/features/ankreth_rpc_api_test.feature --config cucumber.single.js --format json:reports/cucumber-report.json --format junit:reports/junit-report.xml",
+        "dependsOn": ["Docker: Build Cucumber Image"],
+        "problemMatcher": [],
+        "group": "test",
+        "detail": "Runs only the AnkrETH RPC API feature test and saves JUnit results to the host machine"
+      }
+    ]
+  }
