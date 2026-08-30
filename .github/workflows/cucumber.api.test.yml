@@ -2,8 +2,6 @@ name: Cucumber API Tests
 
 on:
   push:
-    branches:
-      - develop
   pull_request:
     branches:
       - main
@@ -13,7 +11,7 @@ on:
 
 jobs:
   dev-test:
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.base_ref == 'main')
     runs-on: ubuntu-latest
     environment: DEV
     steps:
