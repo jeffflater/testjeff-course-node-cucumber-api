@@ -74,6 +74,15 @@
         "problemMatcher": [],
         "group": "test",
         "detail": "Runs only the AnkrETH RPC API feature test and saves JUnit results to the host machine"
+      },
+      {
+        "label": "Docker: Run Smoke Tests (@smoke)",
+        "type": "shell",
+        "command": "docker run --rm --env-file .env -v ${workspaceFolder}/reports:/app/reports --entrypoint npx cucumber-test cucumber-js test/features --tags \"@smoke\" --format json:reports/cucumber-report.json --format junit:reports/junit-report.xml",
+        "dependsOn": ["Docker: Build Cucumber Image"],
+        "problemMatcher": [],
+        "group": "test",
+        "detail": "Runs only the smoke-tagged Cucumber scenarios and saves JUnit results to the host machine"
       }
     ]
   }
